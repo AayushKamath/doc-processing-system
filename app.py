@@ -9,6 +9,9 @@ from langchain.chains.conversational_retrieval.base import ConversationalRetriev
 from langchain_openai import ChatOpenAI
 from html_template import css,bot_template,user_template
 
+import os
+openai_key = os.getenv("OPENAI_API_KEY")
+
 def get_text(pdf_docs):
     text = ""
     for pdf in pdf_docs:
