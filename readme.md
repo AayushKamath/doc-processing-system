@@ -14,7 +14,7 @@ The system combines the capabilities of:
 ## How It Works
 ------------
 
-![Document Processing System](./diagram/System Architecture.png)
+![Document Processing System](./diagram/System_Architecture.png)
 
 Component Breakdown
 
