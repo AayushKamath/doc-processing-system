@@ -3,5 +3,7 @@ langchain
 openai
 chromadb
 PyMuPDF
+PyPDF2
 python-dotenv
 tiktoken
+
