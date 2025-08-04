@@ -6,4 +6,6 @@ PyMuPDF
 PyPDF2
 python-dotenv
 tiktoken
-
+faiss-cpu
+langchain-community
+langchain-openai
