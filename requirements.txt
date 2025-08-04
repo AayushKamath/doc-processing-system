@@ -4,3 +4,4 @@ openai
 chromadb
 PyMuPDF
 python-dotenv
+tiktoken
