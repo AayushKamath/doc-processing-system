@@ -12,6 +12,7 @@ from html_template import css,bot_template,user_template
 import os
 openai_key = os.getenv("OPENAI_API_KEY")
 
+
 def get_text(pdf_docs):
     text = ""
     for pdf in pdf_docs:
@@ -47,13 +48,8 @@ def get_conv_chain(vectorstore):
 
 def handle_input(user_q):
     response = st.session_state.conversation({'question': user_q})
-
     st.session_state.chat_history = response['chat_history']
-    for i, msg in enumerate(st.session_state.chat_history):
-        if i % 2 == 0:
-            st.write(user_template.replace("{{MSG}}", msg.content), unsafe_allow_html=True)
-        else:
-            st.write(bot_template.replace("{{MSG}}", msg.content), unsafe_allow_html=True)
+
 
 
 
@@ -66,12 +62,9 @@ def main():
         st.session_state.conversation = None
 
     if "chat_history" not in st.session_state:
-        st.session_state.chat_history = None
+        st.session_state.chat_history = []
 
     st.header("Document Lookup :books:")
-    user_q = st.text_input("Please enter your query")
-    if user_q:
-        handle_input(user_q)
 
     with st.sidebar:
         st.subheader("Documents")
@@ -90,6 +83,34 @@ def main():
 
                 # Conversation
                 st.session_state.conversation = get_conv_chain(vectorstore)
+                st.session_state.chat_history = []
+    
+
+
+    for msg in st.session_state.chat_history:
+        if hasattr(msg, "type"):
+            role = msg.type  # For newer versions
+        elif hasattr(msg, "role"):
+            role = msg.role  # For older versions
+        else:
+            role = "assistant"  # Default fallback
+
+        template = user_template if role == "human" else bot_template
+        st.write(template.replace("{{MSG}}", msg.content), unsafe_allow_html=True)
+
+
+    # Input at bottom with on_change callback
+    def submit_query():
+        user_q = st.session_state.pending_query
+        if st.session_state.conversation and user_q:
+            response = st.session_state.conversation({'question': user_q})
+            st.session_state.chat_history = response['chat_history']
+            st.session_state.pending_query = ""  # Clear after processing
+
+    st.markdown("<div style='height: 50px;'></div>", unsafe_allow_html=True)
+
+    st.text_input("Type your message…", key="pending_query", on_change=submit_query)
+
 
 if __name__ == '__main__':
     main()

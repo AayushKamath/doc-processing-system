@@ -1,34 +1,37 @@
-css = '''
+css = """
 <style>
-.chat-message {
-    padding: 1.5rem; border-radius: 0.5rem; margin-bottom: 1rem; display: flex
-}
-.chat-message.user {
-    background-color: #2b313e
-}
-.chat-message.bot {
-    background-color: #475063
-}
-.chat-message .avatar {
-  width: 20%;
-}
-.chat-message .avatar img {
-  max-width: 78px;
-  max-height: 78px;
-  border-radius: 50%;
-  object-fit: cover;
-}
-.chat-message .message {
-  width: 80%;
-  padding: 0 1.5rem;
-  color: #fff;
-}
-'''
+    .chat-container {
+    max-height: 65vh; /* Less than full screen */
+    overflow-y: auto;
+    padding: 10px 20px 120px; /* bottom padding = input box space */
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    scroll-behavior: smooth;
+    }
+    .user-msg, .bot-msg {
+        padding: 1rem;
+        border-radius: 10px;
+        max-width: 80%;
+    }
+    .user-msg {
+        background-color: #1c1c1c;
+        color: white;
+        align-self: flex-end;
+    }
+    .bot-msg {
+        background-color: #f1f1f1;
+        color: black;
+        align-self: flex-start;
+    }
+</style>
+"""
+
 
 bot_template = '''
 <div class="chat-message bot">
     <div class="avatar">
-        <img src="https://i.ibb.co/cN0nmSj/Screenshot-2023-05-28-at-02-37-21.png" style="max-height: 78px; max-width: 78px; border-radius: 50%; object-fit: cover;">
+        🤖
     </div>
     <div class="message">{{MSG}}</div>
 </div>
@@ -37,8 +40,8 @@ bot_template = '''
 user_template = '''
 <div class="chat-message user">
     <div class="avatar">
-        <img src="https://i.ibb.co/rdZC7LZ/Photo-logo-1.png">
-    </div>    
+        🙋‍♂️
+    </div>
     <div class="message">{{MSG}}</div>
 </div>
 '''
